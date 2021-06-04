@@ -14,7 +14,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "colleges")
 public class CollegeEntity {
-    
+    //test
     @Id
     @GeneratedValue(strategy = GenerationType.TABLE)
     private Integer id;
