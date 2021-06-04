@@ -15,10 +15,11 @@ import javax.persistence.Table;
 @Table(name = "colleges")
 public class CollegeEntity {
     //test
+    
     @Id
     @GeneratedValue(strategy = GenerationType.TABLE)
     private Integer id;
-
+    private int i;
     @Column(nullable = false)
     private String collegeName;
 
