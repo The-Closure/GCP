@@ -40,7 +40,7 @@ public class QuestionEntity {
     private String sup_file;
 
     @Column(nullable = false)
-    private int pionts;
+    private int points;
 
 
     @ManyToMany
@@ -54,14 +54,14 @@ public class QuestionEntity {
     public QuestionEntity() {
     }
 
-    public QuestionEntity(Integer id, String question, String question_type, InterestEntity interest, LevelEntity level, String sup_file, int pionts, List<ContestEntity> contest, List<AnswerEntity> answers) {
+    public QuestionEntity(Integer id, String question, String question_type, InterestEntity interest, LevelEntity level, String sup_file, int points, List<ContestEntity> contest, List<AnswerEntity> answers) {
         this.id = id;
         this.question = question;
         this.question_type = question_type;
         this.interest = interest;
         this.level = level;
         this.sup_file = sup_file;
-        this.pionts = pionts;
+        this.points = points;
         this.contest = contest;
         this.answers = answers;
     }
@@ -114,12 +114,12 @@ public class QuestionEntity {
         this.sup_file = sup_file;
     }
 
-    public int getPionts() {
-        return this.pionts;
+    public int getpoints() {
+        return this.points;
     }
 
-    public void setPionts(int pionts) {
-        this.pionts = pionts;
+    public void setpoints(int points) {
+        this.points = points;
     }
 
     public List<ContestEntity> getContest() {
@@ -168,8 +168,8 @@ public class QuestionEntity {
         return this;
     }
 
-    public QuestionEntity pionts(int pionts) {
-        setPionts(pionts);
+    public QuestionEntity points(int points) {
+        setpoints(points);
         return this;
     }
 
@@ -191,12 +191,12 @@ public class QuestionEntity {
             return false;
         }
         QuestionEntity questionEntity = (QuestionEntity) o;
-        return Objects.equals(id, questionEntity.id) && Objects.equals(question, questionEntity.question) && Objects.equals(question_type, questionEntity.question_type) && Objects.equals(interest, questionEntity.interest) && Objects.equals(level, questionEntity.level) && Objects.equals(sup_file, questionEntity.sup_file) && pionts == questionEntity.pionts && Objects.equals(contest, questionEntity.contest) && Objects.equals(answers, questionEntity.answers);
+        return Objects.equals(id, questionEntity.id) && Objects.equals(question, questionEntity.question) && Objects.equals(question_type, questionEntity.question_type) && Objects.equals(interest, questionEntity.interest) && Objects.equals(level, questionEntity.level) && Objects.equals(sup_file, questionEntity.sup_file) && points == questionEntity.points && Objects.equals(contest, questionEntity.contest) && Objects.equals(answers, questionEntity.answers);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, question, question_type, interest, level, sup_file, pionts, contest, answers);
+        return Objects.hash(id, question, question_type, interest, level, sup_file, points, contest, answers);
     }
 
     @Override
@@ -208,7 +208,7 @@ public class QuestionEntity {
             ", interest='" + getInterest() + "'" +
             ", level='" + getLevel() + "'" +
             ", sup_file='" + getSup_file() + "'" +
-            ", pionts='" + getPionts() + "'" +
+            ", points='" + getpoints() + "'" +
             ", contest='" + getContest() + "'" +
             ", answers='" + getAnswers() + "'" +
             "}";
