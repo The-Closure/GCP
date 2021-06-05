@@ -24,17 +24,16 @@ public class AnswerEntity {
     private String status;
 
     @Column(nullable =false)
-    private String answers;
-
+    private String answer;
 
     public AnswerEntity() {
     }
 
-    public AnswerEntity(Integer id, QuestionEntity question, String status, String answers) {
+    public AnswerEntity(Integer id, QuestionEntity question, String status, String answer) {
         this.id = id;
         this.question = question;
         this.status = status;
-        this.answers = answers;
+        this.answer = answer;
     }
 
     public Integer getId() {
@@ -61,12 +60,12 @@ public class AnswerEntity {
         this.status = status;
     }
 
-    public String getAnswers() {
-        return this.answers;
+    public String getAnswer() {
+        return this.answer;
     }
 
-    public void setAnswers(String answers) {
-        this.answers = answers;
+    public void setAnswer(String answer) {
+        this.answer = answer;
     }
 
     public AnswerEntity id(Integer id) {
@@ -84,8 +83,8 @@ public class AnswerEntity {
         return this;
     }
 
-    public AnswerEntity answers(String answers) {
-        setAnswers(answers);
+    public AnswerEntity answer(String answer) {
+        setAnswer(answer);
         return this;
     }
 
@@ -97,12 +96,12 @@ public class AnswerEntity {
             return false;
         }
         AnswerEntity answerEntity = (AnswerEntity) o;
-        return Objects.equals(id, answerEntity.id) && Objects.equals(question, answerEntity.question) && Objects.equals(status, answerEntity.status) && Objects.equals(answers, answerEntity.answers);
+        return Objects.equals(id, answerEntity.id) && Objects.equals(question, answerEntity.question) && Objects.equals(status, answerEntity.status) && Objects.equals(answer, answerEntity.answer);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, question, status, answers);
+        return Objects.hash(id, question, status, answer);
     }
 
     @Override
@@ -111,7 +110,7 @@ public class AnswerEntity {
             " id='" + getId() + "'" +
             ", question='" + getQuestion() + "'" +
             ", status='" + getStatus() + "'" +
-            ", answers='" + getAnswers() + "'" +
+            ", answer='" + getAnswer() + "'" +
             "}";
     }
 

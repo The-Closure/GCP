@@ -70,13 +70,13 @@ public class UserEntity {
 
 
     @OneToMany(mappedBy = "user")
-    private List<FiberBaseEntity> firebase;
+    private List<FireBaseEntity> firebase;
 
 
     public UserEntity() {
     }
 
-    public UserEntity(Integer id, String name, String email, String password, Date birthday, String address, CollegeEntity college, Gender gender, String image, List<InterestEntity> interests, ScoreEntity score, LevelEntity level, List<ContestEntity> contests, List<RankEntity> rank, List<FiberBaseEntity> firebase) {
+    public UserEntity(Integer id, String name, String email, String password, Date birthday, String address, CollegeEntity college, Gender gender, String image, List<InterestEntity> interests, ScoreEntity score, LevelEntity level, List<ContestEntity> contests, List<RankEntity> rank, List<FireBaseEntity> firebase) {
         this.id = id;
         this.name = name;
         this.email = email;
@@ -206,11 +206,11 @@ public class UserEntity {
         this.rank = rank;
     }
 
-    public List<FiberBaseEntity> getFirebase() {
+    public List<FireBaseEntity> getFirebase() {
         return this.firebase;
     }
 
-    public void setFirebase(List<FiberBaseEntity> firebase) {
+    public void setFirebase(List<FireBaseEntity> firebase) {
         this.firebase = firebase;
     }
 
@@ -284,7 +284,7 @@ public class UserEntity {
         return this;
     }
 
-    public UserEntity firebase(List<FiberBaseEntity> firebase) {
+    public UserEntity firebase(List<FireBaseEntity> firebase) {
         setFirebase(firebase);
         return this;
     }
