@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+
 
 
 @RestController
@@ -22,6 +22,8 @@ public class AnswerController {
     public Object requestMethodName(@RequestBody AnswerModel answer) {
         return answerService.createAnswer(answer);
     }
+
+    
     @RequestMapping(value="/addanswerwithquestion/{Question}", method=RequestMethod.POST)
     public Object requestMethodName(@RequestBody AnswerModel answer,@PathVariable(name = "Question") String Question)  {
         try {

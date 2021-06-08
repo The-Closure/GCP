@@ -1,8 +1,9 @@
 package org.closure.gcp.entities;
 
-import java.sql.Date;
-import java.util.Objects;
 
+
+import java.util.Date;
+import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
