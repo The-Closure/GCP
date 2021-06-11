@@ -12,7 +12,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name="firebase")
-public class FiberBaseEntity {
+public class FireBaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.TABLE)
     private Integer id;
@@ -25,10 +25,10 @@ public class FiberBaseEntity {
 
 
 
-    public FiberBaseEntity() {
+    public FireBaseEntity() {
     }
 
-    public FiberBaseEntity(Integer id, UserEntity user, String token) {
+    public FireBaseEntity(Integer id, UserEntity user, String token) {
         this.id = id;
         this.user = user;
         this.token = token;
@@ -58,17 +58,17 @@ public class FiberBaseEntity {
         this.token = token;
     }
 
-    public FiberBaseEntity id(Integer id) {
+    public FireBaseEntity id(Integer id) {
         setId(id);
         return this;
     }
 
-    public FiberBaseEntity user(UserEntity user) {
+    public FireBaseEntity user(UserEntity user) {
         setUser(user);
         return this;
     }
 
-    public FiberBaseEntity token(String token) {
+    public FireBaseEntity token(String token) {
         setToken(token);
         return this;
     }
@@ -77,10 +77,10 @@ public class FiberBaseEntity {
     public boolean equals(Object o) {
         if (o == this)
             return true;
-        if (!(o instanceof FiberBaseEntity)) {
+        if (!(o instanceof FireBaseEntity)) {
             return false;
         }
-        FiberBaseEntity fiberBaseEntity = (FiberBaseEntity) o;
+        FireBaseEntity fiberBaseEntity = (FireBaseEntity) o;
         return Objects.equals(id, fiberBaseEntity.id) && Objects.equals(user, fiberBaseEntity.user) && Objects.equals(token, fiberBaseEntity.token);
     }
 
