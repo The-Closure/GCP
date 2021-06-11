@@ -41,20 +41,19 @@ public class UserEntity {
 
     @Column(nullable = true)
     private String address; 
-
-    @ManyToOne(optional = true)
-    private CollegeEntity college;
-
+  
     @Column(nullable = true)
     private Gender gender;
     
-    
     @Column(nullable = true)
     private String image;
-
+    
+    @ManyToOne(optional = true)
+    private CollegeEntity college;
+    
     @OneToMany(mappedBy = "user")
     private List<InterestEntity> interests;
-
+    
     @OneToOne
     private ScoreEntity score;
 

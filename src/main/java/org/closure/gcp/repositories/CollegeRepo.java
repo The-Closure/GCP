@@ -10,4 +10,6 @@ import org.springframework.stereotype.Repository;
 public interface CollegeRepo extends JpaRepository<CollegeEntity,Integer>{
     
     Optional<CollegeEntity> findByCollegeName(String collegeName);
+
+    
 }

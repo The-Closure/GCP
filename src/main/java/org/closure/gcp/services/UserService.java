@@ -1,11 +1,17 @@
 package org.closure.gcp.services;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 
+import org.closure.gcp.entities.CollegeEntity;
 import org.closure.gcp.entities.UserEntity;
+import org.closure.gcp.exceptions.CollegeException;
 import org.closure.gcp.exceptions.UserException;
 import org.closure.gcp.models.Gender;
 import org.closure.gcp.models.UserModel;
+import org.closure.gcp.models.UserQueryModel;
 import org.closure.gcp.repositories.CollegeRepo;
 import org.closure.gcp.repositories.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,27 +62,77 @@ public class UserService {
         }
     }
 
+    public UserModel updateUser(UserModel user){
+        if(user.getId() == null)
+            throw new UserException("can't update user without id");
+        UserEntity entity = userRepo.findById(user.getId()).orElseThrow(()-> new UserException("no user with this id"));
+        entity.address(user.getAddress()).birthday(user.getBirthday()).email(user.getEmail()).gender(Gender.valueOf(user.getGender()));
+        userRepo.save(entity);
+        return userEntityToUserModel(entity);
+    }
+
+   
+    public UserModel joinCollage(Integer uid, Integer cid){
+        UserEntity uentity = userRepo.findById(uid).orElseThrow(()-> new UserException("no user with this id"));
+        CollegeEntity centity = collegeRepo.findById(cid).orElseThrow(()-> new CollegeException("no collage with this id"));
+        if (uentity.getCollege() != null) 
+            throw new UserException("this user already in a college");
+        uentity.college(centity);
+        userRepo.save(uentity);
+        return userEntityToUserModel(uentity);
+    }
+    public UserModel leaveCollage(Integer uid, Integer cid){
+        UserEntity uentity = userRepo.findById(uid).orElseThrow(()-> new UserException("no user with this id"));
+        CollegeEntity centity = collegeRepo.findById(cid).orElseThrow(()-> new CollegeException("no collage with this id"));
+        if (uentity.getCollege() == null) 
+            throw new UserException("this user don't have any college");
+        if(!uentity.getCollege().getId().equals(centity.getId()))
+            throw new UserException("wrong college request");
+        uentity.college(null);
+        userRepo.save(uentity);
+        return userEntityToUserModel(uentity);
+    }
+
+    public UserModel changeCollege(Integer uid,Integer out_cid,Integer in_cid)
+    {
+        List<Integer> cids = new ArrayList<Integer>();
+        cids.add(out_cid);
+        cids.add(in_cid);
+        UserEntity uentity = userRepo.findById(uid).orElseThrow(()-> new UserException("no user with this id"));
+        List<CollegeEntity> centity = collegeRepo.findAllById(cids);
+        if(centity.size() != 2)
+            throw new CollegeException("one or more colleges are not found");
+        leaveCollage(uid, out_cid);
+        return joinCollage(uid, in_cid);
+    }
+    
+    public List<Object> queryUsersCollege()
+    {
+        return userRepo.usersWithCollege();
+    }
 
     public UserEntity UserModelToUserEntity(UserModel user)
     {
-        return new UserEntity()
+        UserEntity entity = new UserEntity()
             .name(user.getUsername())
             .email(user.getEmail())
             .password(user.getPassword())
             .address(user.getAddress())
             .birthday(user.getBirthday())
-            .gender(Gender.valueOf(user.getGender() != null ? user.getGender() : "male"))
-            .college(
-                collegeRepo.findByCollegeName(
-                    user.getCollege()
-                    ).get()
-                );
-                //TODO fix college mapper
+            .gender(Gender.valueOf(user.getGender() != null ? user.getGender() : "male"));
+            if(user.getCollege() != null)
+
+                return entity.college(
+                    collegeRepo.findByCollegeName(
+                        user.getCollege()
+                        ).orElseThrow(()-> new UserException("no collegee with this name")));
+            else return entity;        
+                
     }
 
     public UserModel userEntityToUserModel(UserEntity user)
     {
-        return new UserModel()
+        UserModel model = new UserModel()
             .id(user.getId())
             .username(user.getName())
             .email(user.getEmail())
@@ -84,7 +140,11 @@ public class UserService {
             .birthday(user.getBirthday())
             .gender(user.getGender().toString())
             .password(user.getPassword());
+            if(user.getCollege() != null)
+                return model.college(user.getCollege().getCollegeName());
+            else return model;
     }
 
-    
 }
+
+
