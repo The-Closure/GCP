@@ -11,8 +11,19 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.With;
+
 @Entity
 @Table(name = "colleges")
+@Getter
+@Setter
+@With
+@AllArgsConstructor
+@NoArgsConstructor
 public class CollegeEntity {
     
     @Id
@@ -25,62 +36,5 @@ public class CollegeEntity {
     @OneToMany(mappedBy = "college")
     private List<UserEntity> users;
 
-    public CollegeEntity() {
-    }
-
-    public CollegeEntity(Integer id, String collegeName) {
-        this.id = id;
-        this.collegeName = collegeName;
-    }
-
-    public Integer getId() {
-        return this.id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getCollegeName() {
-        return this.collegeName;
-    }
-
-    public void setCollegeName(String collegeName) {
-        this.collegeName = collegeName;
-    }
-
-    public CollegeEntity id(Integer id) {
-        setId(id);
-        return this;
-    }
-
-    public CollegeEntity collegeName(String collegeName) {
-        setCollegeName(collegeName);
-        return this;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (o == this)
-            return true;
-        if (!(o instanceof CollegeEntity)) {
-            return false;
-        }
-        CollegeEntity collegeEntity = (CollegeEntity) o;
-        return Objects.equals(id, collegeEntity.id) && Objects.equals(collegeName, collegeEntity.collegeName);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, collegeName);
-    }
-
-    @Override
-    public String toString() {
-        return "{" +
-            " id='" + getId() + "'" +
-            ", collegeName='" + getCollegeName() + "'" +
-            "}";
-    }
-
+    
 }

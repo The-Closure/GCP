@@ -4,6 +4,7 @@ import java.util.Optional;
 
 import org.closure.gcp.entities.UserEntity;
 import org.closure.gcp.exceptions.UserException;
+import org.closure.gcp.mappers.UserMapper;
 import org.closure.gcp.models.Gender;
 import org.closure.gcp.models.UserModel;
 import org.closure.gcp.repositories.CollegeRepo;
@@ -26,7 +27,9 @@ public class UserService {
         {
             if(userRepo.findByEmail(user.getEmail()).isEmpty())
             {
-                userRepo.save(UserModelToUserEntity(user));
+                UserEntity entity = UserMapper.INSTANCE.UserModelToUserEntity(user);
+                entity.setCollege(collegeRepo.findByCollegeName(entity.getCollege().getCollegeName()).get());
+                userRepo.save(entity);
                 //TODO mapper from entity to model
                 return user;
             }else{
@@ -48,7 +51,7 @@ public class UserService {
         }else{
             if(entity.get().getPassword().equals(user.getPassword()))
             {
-                return userEntityToUserModel(entity.get());
+                return UserMapper.INSTANCE.UserEntityToUserModel(entity.get());
             }else{
                 throw new UserException("wrong password");
             }
@@ -60,13 +63,13 @@ public class UserService {
     public UserEntity UserModelToUserEntity(UserModel user)
     {
         return new UserEntity()
-            .username(user.getUsername())
-            .email(user.getEmail())
-            .password(user.getPassword())
-            .address(user.getAddress())
-            .birthday(user.getBirthday())
-            .gender(Gender.valueOf(user.getGender() != null ? user.getGender() : "male"))
-            .college(
+            .withUsername(user.getUsername())
+            .withEmail(user.getEmail())
+            .withPassword(user.getPassword())
+            .withAddress(user.getAddress())
+            .withBirthday(user.getBirthday())
+            .withGender(Gender.valueOf(user.getGender() != null ? user.getGender() : "male"))
+            .withCollege(
                 collegeRepo.findByCollegeName(
                     user.getCollege()
                     ).get()
@@ -74,17 +77,17 @@ public class UserService {
                 //TODO fix college mapper
     }
 
-    public UserModel userEntityToUserModel(UserEntity user)
-    {
-        return new UserModel()
-            .id(user.getId())
-            .username(user.getUsername())
-            .email(user.getEmail())
-            .address(user.getAddress())
-            .birthday(user.getBirthday())
-            .gender(user.getGender().toString())
-            .password(user.getPassword());
-    }
+    // public UserModel userEntityToUserModel(UserEntity user)
+    // {
+    //     return new UserModel()
+    //         .withId(user.getId())
+    //         .withUsername(user.getUsername())
+    //         .withEmail(user.getEmail())
+    //         .withAddress(user.getAddress())
+    //         .withBirthday(user.getBirthday())
+    //         .withGender(user.getGender().toString())
+    //         .withPassword(user.getPassword());
+    // }
 
     
 }
