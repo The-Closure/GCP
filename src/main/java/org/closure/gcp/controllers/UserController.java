@@ -9,6 +9,7 @@ import org.closure.gcp.models.UserQueryModel;
 import org.closure.gcp.repositories.UserRepo;
 import org.closure.gcp.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -73,10 +74,14 @@ public class UserController {
     }
 
     @RequestMapping(value="/with/colleges", method=RequestMethod.GET)
-    public List<Object> userscollege() {
+    public List<UserQueryModel> userscollege() {
         return userService.queryUsersCollege();
     }
     
+    @RequestMapping(value="/paging/{num}/{size}", method=RequestMethod.GET)
+    public List<UserModel> pagingUser(@PathVariable(name = "num") int pageNo,@PathVariable(name = "size") int pageSize) {
+        return userService.fetchAllUsers(pageNo, pageSize);
+    }
     
     
 

@@ -15,6 +15,10 @@ import org.closure.gcp.models.UserQueryModel;
 import org.closure.gcp.repositories.CollegeRepo;
 import org.closure.gcp.repositories.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -106,9 +110,10 @@ public class UserService {
         return joinCollage(uid, in_cid);
     }
     
-    public List<Object> queryUsersCollege()
+    public List<UserQueryModel> queryUsersCollege()
     {
-        return userRepo.usersWithCollege();
+        List<List<String>> list = userRepo.usersWithCollege();
+        return list.stream().map((mapper)->{return new UserQueryModel(mapper.get(0),mapper.get(1));}).toList();
     }
 
     public UserEntity UserModelToUserEntity(UserModel user)
@@ -143,6 +148,29 @@ public class UserService {
             if(user.getCollege() != null)
                 return model.college(user.getCollege().getCollegeName());
             else return model;
+    }
+
+    public List<UserModel> fetchAllUsers(int pageNo, int pageSize)
+    {
+        // Pageable paging = PageRequest.of(pageNo, pageSize,Sort.by("username"));
+        // Page<UserEntity> pagedResult = userRepo.findAll(paging);
+        
+        // old way
+        // List<UserEntity> users = pagedResult.toList();
+        
+        // List<UserModel> results = new ArrayList<UserModel>();
+        // for(UserEntity user : users)
+        // {
+        //     results.add(userEntityToUserModel(user));
+        // }
+        // return results;
+            return userRepo.findAll(
+                PageRequest.of(pageNo, pageSize,Sort.by("name"))
+                ).toList().stream().map(
+                    (e)-> {
+                        return userEntityToUserModel(e);
+                }).toList();
+
     }
 
 }
