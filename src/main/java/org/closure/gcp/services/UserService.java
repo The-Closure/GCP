@@ -36,9 +36,9 @@ public class UserService {
         {
             if(userRepo.findByEmail(user.getEmail()).isEmpty())
             {
-                userRepo.save(UserModelToUserEntity(user));
+                UserEntity entity = userRepo.save(UserModelToUserEntity(user));
                 //TODO mapper from entity to model
-                return user;
+                return user.id(entity.getId());
             }else{
                 throw new UserException("this email is already exist");
             }
